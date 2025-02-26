@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/pin02.png') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Tournaments</h1>
+                    <span class="subheading">Compete With The Best in Pinball</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Upcoming Tournaments Section -->
+            <section class="mb-5">
+                <h2 class="mb-4">Upcoming Tournaments</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h4">IFPA World Championship 2025</h3>
+                        <p class="text-muted mb-2">March 15-17, 2025 • Las Vegas, NV</p>
+                        <p>The premier event in competitive pinball. Top players from around the world compete for the title.</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h4">European Pinball Championship</h3>
+                        <p class="text-muted mb-2">April 5-7, 2025 • Berlin, Germany</p>
+                        <p>Europe's largest pinball tournament featuring classic and modern machines.</p>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Rankings Section -->
+            <section class="mb-5">
+                <h2 class="mb-4">Current Rankings</h2>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Keith Elwin</td>
+                                <td>985.23</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Raymond Davidson</td>
+                                <td>945.77</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Daniele Acciari</td>
+                                <td>922.15</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Registration Info -->
+            <section class="mb-5">
+                <h2 class="mb-4">How to Register</h2>
+                <p>To participate in IFPA sanctioned tournaments:</p>
+                <ol>
+                    <li>Create an IFPA player account</li>
+                    <li>Find tournaments in your area</li>
+                    <li>Register and pay entry fees</li>
+                    <li>Show up and compete!</li>
+                </ol>
+                <a href="#" class="btn btn-primary">Register Now</a>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/pin01.png') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    <h1>Welcome to Pinball Wizard's Corner</h1>
+                    <span class="subheading">Your Gateway to the World of Competitive Pinball</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Featured Sections -->
+            <div class="featured-section mb-5">
+                <h2>Latest Tournament Updates</h2>
+                <p>Stay updated with the latest tournament schedules, results, and highlights from the competitive pinball scene.</p>
+                <a class="btn btn-primary" href="{{ url_for('tournaments') }}">View Tournaments →</a>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="featured-section mb-5">
+                <h2>Machine Directory</h2>
+                <p>Explore our comprehensive guide to classic and modern pinball machines, complete with strategies and tips.</p>
+                <a class="btn btn-primary" href="{{ url_for('machines') }}">Browse Machines →</a>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="featured-section mb-5">
+                <h2>Pro Tips & Techniques</h2>
+                <p>Level up your game with expert advice, techniques, and strategies from experienced players.</p>
+                <a class="btn btn-primary" href="{{ url_for('tips') }}">Learn More →</a>
+            </div>
+
+            <hr class="my-4" />
+
+            <div class="featured-section">
+                <h2>Latest Blog Posts</h2>
+                <p>Check out our latest articles, interviews, and insights from the world of competitive pinball.</p>
+                <a class="btn btn-primary" href="{{ url_for('blog') }}">Read Blog →</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .featured-section {
+        padding: 1rem 0;
+    }
+    
+    .featured-section h2 {
+        color: var(--bs-body-color);
+        margin-bottom: 1rem;
+    }
+    
+    .featured-section p {
+        color: var(--bs-body-color);
+        margin-bottom: 1.5rem;
+    }
+</style>
+{% endblock %}

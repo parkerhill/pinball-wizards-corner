@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/pin13.png') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Tips & Techniques</h1>
+                    <span class="subheading">Level Up Your Pinball Game</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Beginner Tips -->
+            <section class="mb-5">
+                <h2 class="mb-4">Beginner Basics</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h4">Flipper Control</h3>
+                        <p>Master the fundamentals of flipper control with these essential techniques:</p>
+                        <ul>
+                            <li>Dead bounces</li>
+                            <li>Live catches</li>
+                            <li>Post passes</li>
+                            <li>Cradle separations</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Advanced Techniques -->
+            <section class="mb-5">
+                <h2 class="mb-4">Advanced Strategies</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h4">Multiball Management</h3>
+                        <p>Tips for handling multiple balls in play:</p>
+                        <ul>
+                            <li>Ball prioritization</li>
+                            <li>Stacked traps</li>
+                            <li>Timing shots</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3 class="h4">Tournament Tactics</h3>
+                        <p>Strategic approaches for competitive play:</p>
+                        <ul>
+                            <li>Risk management</li>
+                            <li>Time management</li>
+                            <li>Mental focus</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Video Tutorials -->
+            <section class="mb-5">
+                <h2 class="mb-4">Latest Video Tips</h2>
+                <div class="ratio ratio-16x9 mb-4">
+                    <img src="{{ url_for('static', filename='assets/img/pin04.png') }}" alt="Tutorial Preview" class="img-fluid">
+                </div>
+                <p class="text-center">
+                    <a href="#" class="btn btn-primary">Watch More Tutorials</a>
+                </p>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

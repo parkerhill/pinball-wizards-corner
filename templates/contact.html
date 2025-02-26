@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/pin04.png') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Contact Us</h1>
+                    <span class="subheading">Questions about Pinball? Let's Talk!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content-->
+<main class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p>Have questions about tournaments, machines, or techniques? Want to contribute to the blog? Drop us a message, and we'll get back to you as soon as possible!</p>
+                <div class="my-5">
+                    <form id="contactForm" action="{{ url_for('submit') }}" method="POST">
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..." required />
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email..." required />
+                            <label for="email">Email address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-control" id="topic" name="topic" required>
+                                <option value="">Select a topic...</option>
+                                <option value="tournaments">Tournaments</option>
+                                <option value="machines">Machines</option>
+                                <option value="techniques">Techniques</option>
+                                <option value="contribution">Blog Contribution</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <label for="topic">Topic</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <textarea class="form-control" id="message" name="message" placeholder="Enter your message here..." style="height: 12rem" required></textarea>
+                            <label for="message">Message</label>
+                        </div>
+                        <button class="btn btn-primary text-uppercase" type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    try {
+        const response = await fetch("{{ url_for('submit') }}", {
+            method: 'POST',
+            body: new FormData(this)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert('Thanks for your message! We\'ll get back to you soon.');
+            this.reset();
+        } else {
+            alert('Sorry, there was an error sending your message. Please try again.');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Sorry, there was an error sending your message. Please try again.');
+    }
+});
+</script>
+{% endblock %}

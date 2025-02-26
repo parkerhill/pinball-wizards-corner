@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/pin03.png') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    <h1>Pinball Machines</h1>
+                    <span class="subheading">Discover Legendary Tables and Modern Marvels</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7">
+            <!-- Featured Machines -->
+            <section class="mb-5">
+                <h2 class="mb-4">Featured Machines</h2>
+                <div class="card mb-4">
+                    <img src="{{ url_for('static', filename='assets/img/pin_medieval01.png') }}" class="card-img-top" alt="Medieval Madness">
+                    <div class="card-body">
+                        <h3 class="h4">Medieval Madness (1997)</h3>
+                        <p class="text-muted">Williams Electronics</p>
+                        <p>Widely considered one of the greatest pinball machines ever made, featuring innovative castle destruction mechanics and memorable character interactions.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">Tournament Favorite</span>
+                            <a href="#" class="btn btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <img src="{{ url_for('static', filename='assets/img/pin3.png') }}" class="card-img-top" alt="The Addams Family">
+                    <div class="card-body">
+                        <h3 class="h4">The Addams Family (1992)</h3>
+                        <p class="text-muted">Bally</p>
+                        <p>The best-selling pinball machine of all time, featuring innovative mechanics and memorable voice work by the original cast.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-success">Classic</span>
+                            <a href="#" class="btn btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Machine Categories -->
+            <section class="mb-5">
+                <h2 class="mb-4">Browse by Era</h2>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h3 class="h5">Classic Era (1970s-1990s)</h3>
+                                <p>Electromechanical and early digital machines that defined the golden age of pinball.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Browse Classics</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h3 class="h5">Modern Era (2000s-Present)</h3>
+                                <p>Contemporary machines with advanced features and digital innovations.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Browse Modern</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Machine Database -->
+            <section class="mb-5">
+                <h2 class="mb-4">Machine Database</h2>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Search machines...">
+                    <button class="btn btn-primary" type="button">Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Year</th>
+                                <th>Manufacturer</th>
+                                <th>Rating</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Iron Maiden</td>
+                                <td>2018</td>
+                                <td>Stern</td>
+                                <td>4.8/5</td>
+                            </tr>
+                            <tr>
+                                <td>Monster Bash</td>
+                                <td>1998</td>
+                                <td>Williams</td>
+                                <td>4.9/5</td>
+                            </tr>
+                            <tr>
+                                <td>Godzilla</td>
+                                <td>2021</td>
+                                <td>Stern</td>
+                                <td>4.7/5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

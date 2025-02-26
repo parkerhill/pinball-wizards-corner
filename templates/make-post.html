@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{ url_for('static', filename='assets/img/pin04.png') }}')">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="page-heading">
+                    {% if is_edit %}
+                    <h1>Edit Post</h1>
+                    <span class="subheading">Update Your Pinball Story</span>
+                    {% else %}
+                    <h1>Create New Post</h1>
+                    <span class="subheading">Share Your Pinball Knowledge</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="mb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category if category else 'info' }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="card">
+                    <div class="card-body">
+                        {{ ckeditor.load() }}
+                        {{ ckeditor.config(name='body') }}
+                        <form method="POST" novalidate>
+                            {{ form.csrf_token }}
+                            <div class="form-group mb-3">
+                                {{ form.title.label(class="form-label") }}
+                                {{ form.title(class="form-control", placeholder="Enter your post title") }}
+                                {% if form.title.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.title.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form.subtitle.label(class="form-label") }}
+                                {{ form.subtitle(class="form-control", placeholder="Enter a subtitle") }}
+                                {% if form.subtitle.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.subtitle.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form.img_url.label(class="form-label") }}
+                                {{ form.img_url(class="form-control", placeholder="Enter an image URL") }}
+                                {% if form.img_url.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.img_url.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="form-group mb-3">
+                                {{ form.body.label(class="form-label") }}
+                                {{ form.body }}
+                                {% if form.body.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in form.body.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <a href="{{ url_for('blog') }}" class="btn btn-secondary me-md-2">Cancel</a>
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{%  endblock %}
