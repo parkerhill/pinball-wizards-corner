@@ -11,5 +11,5 @@ email-validator==2.0.0
 python-dotenv==1.0.0
 flask-migrate==4.0.4
 # Additional packages for deployment
-gunicorn==21.2.0
+waitress==2.1.2
 psycopg2-binary==2.9.9
