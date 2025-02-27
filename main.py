@@ -115,8 +115,8 @@ class Comment(db.Model):
 def create_app():
     app = Flask(__name__)
 
-    # Set secret key from environment variable or use default
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '8BYkEfBA6O6donzWlSihBXox7C0sKR6b')
+    # Secret key from environment variable
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
     # Database configuration - Use PostgreSQL in production, SQLite in development
     if os.getenv('DATABASE_URL'):
