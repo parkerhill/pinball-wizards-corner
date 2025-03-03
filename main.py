@@ -128,6 +128,14 @@ def create_app():
         db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blog.db")
         app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
+    # Add connection pooling settings
+    app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,  # Recycle connections after 5 minutes
+        'pool_timeout': 30,  # Connection timeout of 30 seconds
+        'pool_size': 10  # Maximum pool size
+    }
+
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Add CKEditor configuration lines
@@ -184,6 +192,24 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
 
+    def safe_query(model, action='all', **kwargs):
+        """Execute a query with error handling and retries."""
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                if action == 'all':
+                    return model.query.all()
+                elif action == 'filter_by':
+                    return model.query.filter_by(**kwargs).all()
+                # Add more actions as needed
+            except Exception as e:
+                print(f"Database query error (attempt {attempt + 1}/{max_retries}): {e}")
+                if attempt == max_retries - 1:
+                    # Last attempt failed, return empty list
+                    return []
+                # Small delay before retry
+                import time
+                time.sleep(1)
 
     # Routes
 
@@ -265,10 +291,12 @@ The Pinball Wizard's Corner Team
 
         return render_template('reset_password.html', form=form, current_year=current_year)
 
-
     @app.route('/')
+    def root_home():
+        return redirect(url_for('home'))
+    @app.route('/home')
     def home():
-        posts = BlogPost.query.all()
+        posts = safe_query(BlogPost)
         current_year = datetime.datetime.now().year
         return render_template("home.html", posts=posts, current_page='home', current_year=current_year)
 
@@ -279,7 +307,7 @@ The Pinball Wizard's Corner Team
 
     @app.route('/blog')
     def blog():
-        posts = BlogPost.query.all()
+        posts = safe_query(BlogPost)
         current_year = datetime.datetime.now().year
         return render_template("blog.html", posts=posts, current_page='blog', current_year=current_year)
 
