@@ -17,6 +17,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from flask_mail import Mail, Message
 from dotenv import load_dotenv
+import json
 
 # Load environment variables from .env file
 load_dotenv()
@@ -118,11 +119,40 @@ def create_app():
     # Secret key from environment variable
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-    # Database configuration - Use PostgreSQL in production, SQLite in development
+    # # Database configuration - Use PostgreSQL in production, SQLite in development
+    # if os.getenv('DATABASE_URL'):
+    #     # For production with PostgreSQL
+    #     db_url = os.getenv('DATABASE_URL', '')
+    #     # Remove sslmode if present in the URL to add our own parameters
+    #     if '?' in db_url:
+    #         db_url = db_url.split('?')[0]
+    #
+    #     app.config['SQLALCHEMY_DATABASE_URI'] = db_url
+    #
+    #     # Add robust connection options for PostgreSQL
+    #     app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
+    #         'connect_args': {
+    #             'sslmode': 'prefer',  # Try other modes if this doesn't work: disable, allow, require
+    #             'connect_timeout': 10,
+    #             'keepalives': 1,
+    #             'keepalives_idle': 30,
+    #             'keepalives_interval': 10,
+    #             'keepalives_count': 5
+    #         },
+    #         'pool_pre_ping': True,
+    #         'pool_recycle': 300,
+    #         'pool_size': 5,
+    #         'max_overflow': 10
+    #     }
+    # else:
+    #     # For development with SQLite
+    #     db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blog.db")
+    #     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+
     if os.getenv('DATABASE_URL'):
-        # For production with PostgreSQL
+        # For production with PostgreSQL (currently commented out in .env)
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', '').replace(
-            'postgres://', 'postgresql://')  # Heroku fix
+            'postgres://', 'postgresql://')
     else:
         # For development with SQLite
         db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "blog.db")
@@ -212,6 +242,16 @@ def create_app():
                 time.sleep(1)
 
     # Routes
+
+    # Get NM Player rankings routes
+    @app.route('/api/nm_players')
+    def nm_players():
+        try:
+            with open('static/data/nm_players.json', 'r') as f:
+                data = json.load(f)
+            return jsonify(data)
+        except FileNotFoundError:
+            return jsonify({'error': 'Rankings data not found'}), 404
 
     # Password reset routes
     @app.route('/forgot-password', methods=['GET', 'POST'])
@@ -344,8 +384,68 @@ The Pinball Wizard's Corner Team
     @app.route('/tournaments')
     def tournaments():
         current_year = datetime.datetime.now().year
-        return render_template("tournaments.html", current_page='tournaments', current_year=current_year)
 
+        try:
+            # Load NACS standings data
+            nacs_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                          'static', 'data', 'nm_nacs_standings_2025.json')
+            print(f"Attempting to load NACS standings from: {nacs_file_path}")
+
+            with open(nacs_file_path, 'r') as f:
+                nacs_data = json.load(f)
+
+            # Get top 20 players from NACS standings
+            nacs_players = nacs_data.get('standings', [])[:20]
+            updated = nacs_data.get('updated', 'Unknown')
+
+            # Load WPPR data
+            wppr_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                          'static', 'data', 'nm_combined_rankings_2025.json')
+            print(f"Attempting to load combined rankings from: {wppr_file_path}")
+
+            wppr_lookup = {}
+
+            try:
+                with open(wppr_file_path, 'r') as f:
+                    combined_data = json.load(f)
+                    combined_players = combined_data.get('players', [])
+
+                    # Create lookup dictionary by player_id
+                    for player in combined_players:
+                        # Use exact player name as key
+                        wppr_lookup[player['name']] = player.get('current_wppr_rank', '-')
+
+                    print(f"Successfully loaded {len(combined_players)} players from combined data")
+            except Exception as e:
+                print(f"Error loading combined data: {e}")
+
+            # Create list of players with WPPR ranks
+            processed_players = []
+            for player in nacs_players:
+                player_data = {
+                    'series_rank': player['series_rank'],
+                    'player_name': player['player_name'],
+                    'city': player['city'],
+                    'stateprov_code': player['stateprov_code'],
+                    'wppr_points': player['wppr_points'],
+                    'event_count': player['event_count'],
+                    'win_count': player['win_count'],
+                    'wppr_rank': wppr_lookup.get(player['player_name'], '-')
+                }
+                processed_players.append(player_data)
+
+            print(f"Successfully processed {len(processed_players)} players")
+
+        except Exception as e:
+            print(f"Error loading player data: {e}")
+            processed_players = []
+            updated = 'Unknown'
+
+        return render_template("tournaments.html",
+                               current_page='tournaments',
+                               current_year=current_year,
+                               nm_players=processed_players,
+                               last_updated=updated)
     @app.route('/tips')
     def tips():
         current_year = datetime.datetime.now().year
